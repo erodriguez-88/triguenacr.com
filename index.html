@@ -25,6 +25,8 @@ body{font-family:var(--sans);background:var(--bone);color:var(--ink);-webkit-fon
 img{display:block;max-width:100%}
 button,a{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;text-decoration:none}
 
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;opacity:.04;mix-blend-mode:multiply;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:14px 20px;background:rgba(245,239,230,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);height:var(--nav)}
 .nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer}
 .nav-logo img{width:36px;height:36px;border-radius:50%;object-fit:cover}
@@ -33,7 +35,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .wa-btn:hover{background:#1da851;transform:translateY(-1px)}
 .wa-btn svg{width:16px;height:16px;fill:#fff;flex-shrink:0}
 
-.wa-float{position:fixed;bottom:24px;right:20px;z-index:300;background:var(--wa);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.35);transition:all .3s var(--ease)}
+.section{padding-top:var(--nav)}
+#hero{padding-top:0;min-height:100vh}
+#vista-catalogo,#vista-detalle{display:none}
+#vista-catalogo.on,#vista-detalle.on{display:block}
+#categorias,#vista-catalogo,#vista-detalle,#telas,#medidas,#faq,#proceso,#politicas{scroll-margin-top:var(--nav)}
+
+.wa-float{position:fixed;bottom:24px;right:20px;z-index:300;background:var(--wa);color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.35);transition:all .3s var(--ease);animation:waPulse 2.5s ease-in-out infinite}
 .wa-float:hover{transform:scale(1.1)}
 .wa-float svg{width:26px;height:26px;fill:#fff}
 .home-float{position:fixed;bottom:24px;left:20px;z-index:300;background:var(--ink);color:var(--bone);height:52px;border-radius:26px;display:flex;align-items:center;gap:8px;padding:0 20px 0 16px;box-shadow:0 8px 24px rgba(26,20,16,.25);cursor:pointer;border:none;font-family:var(--sans);font-size:11px;letter-spacing:.25em;text-transform:uppercase;opacity:0;pointer-events:none;transform:translateY(12px);transition:all .4s var(--ease)}
@@ -41,42 +49,36 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .home-float:hover{background:var(--terra)}
 .home-float svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.8;fill:none}
 @media(max-width:520px){.home-float{padding:0;width:52px;justify-content:center}.home-float span{display:none}}
+@keyframes waPulse{0%,100%{box-shadow:0 8px 24px rgba(37,211,102,.35)}50%{box-shadow:0 8px 36px rgba(37,211,102,.6)}}
 
-#hero{display:grid;grid-template-columns:1fr;background:var(--sage);color:var(--bone);min-height:100vh;padding-top:var(--nav)}
-@media(min-width:860px){#hero{grid-template-columns:1fr 1fr;padding-top:0}}
-.hero-left{display:flex;flex-direction:column;justify-content:center;padding:60px 32px 60px}
+#hero{display:grid;grid-template-columns:1fr;background:var(--sage);color:var(--bone)}
+@media(min-width:860px){#hero{grid-template-columns:1fr 1fr}}
+.hero-left{display:flex;flex-direction:column;justify-content:center;padding:90px 40px 60px}
 @media(min-width:860px){.hero-left{padding:80px 56px 60px}}
-.hero-logo-wrap{width:clamp(80px,14vw,130px);margin-bottom:28px}
-.hero-logo-wrap img{width:100%;border-radius:50%;object-fit:cover}
-.eyebrow{font-size:10px;letter-spacing:.45em;text-transform:uppercase;opacity:.8;margin-bottom:16px}
-.hero-title{font-family:var(--display2);font-weight:100;font-size:clamp(26px,5.8vw,68px);line-height:1.1;letter-spacing:.44em;text-indent:.44em;text-transform:uppercase;margin-bottom:16px}
-.hero-tag{font-family:var(--display);font-style:italic;font-size:clamp(16px,2.5vw,22px);line-height:1.45;opacity:.88;max-width:28ch}
-.hero-actions{margin-top:32px;display:flex;gap:12px;flex-wrap:wrap}
-.hero-hint{margin-top:24px;display:flex;align-items:center;gap:10px;color:rgba(245,239,230,.65)}
+.hero-logo-wrap{width:clamp(90px,16vw,150px);margin-bottom:28px;opacity:0;animation:rise .9s var(--ease) .2s forwards}
+.hero-logo-wrap img{width:100%;object-fit:contain;display:block}
+.eyebrow{font-size:10px;letter-spacing:.45em;text-transform:uppercase;opacity:.8;margin-bottom:16px;animation:rise .9s var(--ease) .35s forwards;opacity:0}
+.hero-title{font-family:var(--display2);font-weight:100;font-size:clamp(26px,5.8vw,68px);line-height:1.1;letter-spacing:.44em;text-indent:.44em;text-transform:uppercase;margin-bottom:16px;opacity:0;animation:rise 1s var(--ease) .5s forwards}
+.hero-tag{font-family:var(--display);font-style:italic;font-size:clamp(16px,2.5vw,22px);line-height:1.45;opacity:.88;max-width:28ch;animation:rise 1s var(--ease) .7s forwards;opacity:0}
+.hero-actions{margin-top:32px;display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:rise 1s var(--ease) .9s forwards}
+.hero-hint{margin-top:24px;display:flex;align-items:center;gap:10px;color:rgba(245,239,230,.65);opacity:0;animation:rise 1s var(--ease) 1.1s forwards}
 .hero-hint .arr{font-size:18px;animation:bounce 2s ease-in-out infinite}
 .hero-hint span{font-size:9px;letter-spacing:.35em;text-transform:uppercase}
 @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
 .hero-right{position:relative;overflow:hidden;min-height:50vh}
 @media(min-width:860px){.hero-right{min-height:100vh}}
-.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center 25%}
+.hero-bg{position:absolute;inset:0;background-size:cover;background-position:center 20%;transform:scale(1.05);animation:slowZoom 14s var(--ease) forwards}
 .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,20,16,.05) 0%,rgba(26,20,16,.32) 100%)}
+@keyframes slowZoom{to{transform:scale(1)}}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
 .btn-o{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border:1px solid rgba(245,239,230,.7);border-radius:999px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone);transition:all .4s var(--ease)}
 .btn-o:hover{background:var(--bone);color:var(--sage-deep);border-color:var(--bone)}
+.btn-o:active{transform:scale(.97)}
+.btn-o-prim{background:rgba(245,239,230,.15);border-color:var(--bone)}
 
 .sec-div{height:2px;background:linear-gradient(90deg,transparent,var(--line),transparent)}
 
-/* LOADING */
-.loading-overlay{position:fixed;inset:0;z-index:500;background:var(--bone);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity .6s ease}
-.loading-overlay.hidden{opacity:0;pointer-events:none}
-.loader-logo{width:64px;height:64px;border-radius:50%;overflow:hidden}
-.loader-logo img{width:100%;height:100%;object-fit:cover}
-.loader-text{font-family:var(--display2);font-weight:100;font-size:22px;letter-spacing:.4em;text-transform:uppercase;color:var(--sage-deep)}
-.loader-bar{width:120px;height:1px;background:var(--line);position:relative;overflow:hidden}
-.loader-bar::after{content:"";position:absolute;left:-100%;top:0;height:100%;width:100%;background:var(--sage-deep);animation:loadBar 1.5s ease-in-out infinite}
-@keyframes loadBar{0%{left:-100%}100%{left:100%}}
-
-/* CATEGORÍAS */
 #categorias{background:var(--bone);padding:60px 0 80px}
 .sec-head{text-align:center;padding:0 20px 44px;max-width:700px;margin:0 auto}
 .kicker{font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--terra);margin-bottom:12px}
@@ -88,31 +90,38 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 @media(min-width:700px){.cat-grid{grid-template-columns:repeat(3,1fr);gap:18px;padding:0 24px}}
 .cc{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:4px;cursor:pointer;color:var(--bone);transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
 .cc:hover{transform:translateY(-6px);box-shadow:0 24px 48px -12px rgba(42,30,20,.3)}
+.cc:active{transform:translateY(-2px)}
 .cc-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 1.2s var(--ease)}
 .cc:hover .cc-bg{transform:scale(1.06)}
 .cc::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(26,20,16,0) 30%,rgba(26,20,16,.88) 100%)}
+.cc-badge{position:absolute;top:12px;right:12px;z-index:3;background:rgba(245,239,230,.92);color:var(--ink);font-size:9px;letter-spacing:.3em;text-transform:uppercase;padding:7px 12px;border-radius:999px;opacity:0;transform:translateY(-4px);transition:all .3s var(--ease)}
+.cc:hover .cc-badge{opacity:1;transform:translateY(0)}
 .cc-info{position:absolute;left:0;right:0;bottom:0;padding:22px 20px;z-index:2}
 .cc-num{font-size:9px;letter-spacing:.4em;text-transform:uppercase;opacity:.8;margin-bottom:8px}
 .cc-info h3{font-family:var(--display);font-weight:300;font-size:clamp(34px,7vw,52px);line-height:1;font-style:italic}
 .cc-info p{font-size:12px;opacity:.85;margin-top:5px;line-height:1.3}
-.cc-cta{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;border-bottom:1px solid rgba(245,239,230,.45);padding-bottom:3px}
+.cc-cta{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;border-bottom:1px solid rgba(245,239,230,.45);padding-bottom:3px;transition:all .4s var(--ease)}
+.cc:hover .cc-cta{border-color:var(--bone);padding-right:5px}
 
 .qlinks{max-width:1200px;margin:44px auto 0;padding:0 18px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 @media(min-width:700px){.qlinks{grid-template-columns:repeat(4,1fr)}}
-.qb{padding:18px 16px;border:1px solid var(--line);border-radius:5px;text-align:left;cursor:pointer;background:var(--bone);transition:all .25s var(--ease)}
-.qb:hover{border-color:var(--sage);background:rgba(154,164,134,.08);transform:translateY(-3px)}
-.qb-icon{margin-bottom:10px;height:32px;display:flex;align-items:center}
-.qb-icon svg{width:28px;height:28px;stroke:var(--sage-deep);stroke-width:1.4;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.qb{padding:18px 16px;border:1px solid var(--line);border-radius:5px;text-align:left;cursor:pointer;background:var(--bone);transition:all .25s var(--ease);position:relative;overflow:hidden}
+.qb:hover{border-color:var(--sage);background:rgba(154,164,134,.08);transform:translateY(-3px);box-shadow:0 8px 20px -8px rgba(42,30,20,.18)}
+.qb:active{transform:translateY(0)}
+.qb-icon{margin-bottom:10px;display:flex;align-items:center;justify-content:center;height:32px}
+.qb-icon svg{width:28px;height:28px;stroke:var(--sage-deep);stroke-width:1.4;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .3s var(--ease)}
+.qb:hover .qb-icon svg{stroke:var(--ink)}
 .qb-k{font-size:9px;letter-spacing:.35em;text-transform:uppercase;color:var(--terra);margin-bottom:4px}
 .qb-t{font-family:var(--display);font-size:17px;font-style:italic;color:var(--ink)}
+.qb-arr{position:absolute;bottom:14px;right:14px;font-size:16px;color:var(--sage-deep);opacity:0;transform:translateX(-5px);transition:all .25s var(--ease)}
+.qb:hover .qb-arr{opacity:1;transform:translateX(0)}
 
-/* CATÁLOGO VIEW */
-#vista-catalogo{background:var(--bone);padding-bottom:80px;display:none}
-#vista-catalogo.on{display:block}
+#vista-catalogo{background:var(--bone);padding-bottom:80px}
 .vc-ctrl{max-width:1280px;margin:0 auto;padding:40px 20px 24px}
-.back-chip{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;padding:9px 16px;border:1px solid var(--line);border-radius:999px;margin-bottom:18px;transition:all .3s var(--ease);cursor:pointer}
+.back-chip{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;padding:9px 16px;border:1px solid var(--line);border-radius:999px;margin-bottom:18px;transition:all .3s var(--ease);cursor:pointer;background:transparent}
 .back-chip:hover{background:var(--ink);color:var(--bone);border-color:var(--ink)}
 .vc-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.vc-left .kicker{margin-bottom:10px}
 .vc-left h2{font-family:var(--display);font-weight:300;font-size:clamp(34px,7vw,68px);line-height:.95;letter-spacing:-.02em}
 .vc-left h2 em{font-style:italic}
 .vc-right{font-family:var(--display);font-style:italic;font-size:15px;color:rgba(42,30,20,.7);max-width:300px}
@@ -120,6 +129,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 
 .tf-wrap{max-width:1280px;margin:0 auto;padding:16px 20px 24px;display:flex;gap:8px;flex-wrap:wrap}
 .tf{padding:8px 16px;border:1px solid var(--line);border-radius:999px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;transition:all .3s var(--ease);white-space:nowrap;cursor:pointer;background:transparent}
+.tf:hover{border-color:var(--ink)}
 .tf.on{background:var(--ink);color:var(--bone);border-color:var(--ink)}
 
 .pg{max-width:1280px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px 12px}
@@ -137,17 +147,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .pv{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(42,30,20,.55);margin-top:3px;display:inline-block;border-bottom:1px solid transparent;transition:all .3s var(--ease)}
 .pc:hover .pv{color:var(--terra);border-color:var(--terra)}
 
-/* DETALLE VIEW */
-#vista-detalle{background:var(--cream);padding-bottom:80px;display:none}
-#vista-detalle.on{display:block}
+#vista-detalle{background:var(--cream);padding-bottom:80px}
 .dw{max-width:1200px;margin:0 auto;padding:36px 20px 0;display:grid;gap:36px;grid-template-columns:1fr}
 @media(min-width:900px){.dw{grid-template-columns:1.1fr 1fr;gap:56px;align-items:start}}
 .dm{aspect-ratio:3/4;overflow:hidden;background:var(--sand);border-radius:3px}
-.dm img{width:100%;height:100%;object-fit:cover}
+.dm img{width:100%;height:100%;object-fit:cover;transition:opacity .3s ease}
 .dt{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .dth{width:62px;aspect-ratio:1;overflow:hidden;border-radius:2px;cursor:pointer;opacity:.55;transition:opacity .3s var(--ease);background:var(--sand);flex-shrink:0}
 .dth img{width:100%;height:100%;object-fit:cover}
 .dth.on{opacity:1;outline:1.5px solid var(--ink);outline-offset:2px}
+.dth:hover{opacity:.9}
 .di .kicker{color:var(--terra);margin-bottom:12px}
 .di h2{font-family:var(--display);font-weight:300;font-size:clamp(34px,6vw,58px);line-height:1;letter-spacing:-.02em;font-style:italic;margin-bottom:10px}
 .d-precio{font-family:var(--display);font-size:clamp(22px,4vw,32px);font-weight:500;margin-bottom:8px}
@@ -158,7 +167,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .d-tiempos{background:rgba(154,164,134,.12);border-left:2px solid var(--sage-deep);padding:14px 16px;margin-bottom:20px;font-family:var(--display);font-style:italic;font-size:15px;line-height:1.5}
 .d-tiempos strong{font-style:normal;font-weight:500}
 .bwaf{width:100%;padding:17px;background:var(--wa);color:#fff;font-size:11px;letter-spacing:.3em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:12px;border-radius:3px;font-weight:500;transition:all .3s var(--ease);margin-bottom:10px}
-.bwaf:hover{background:#1da851}
+.bwaf:hover{background:#1da851;transform:translateY(-2px)}
 .bwaf svg{width:17px;height:17px;fill:#fff}
 .bgf{width:100%;padding:15px;font-size:10px;letter-spacing:.3em;text-transform:uppercase;border:1px solid var(--line);border-radius:3px;transition:all .3s var(--ease);cursor:pointer;background:transparent}
 .bgf:hover{border-color:var(--ink)}
@@ -167,51 +176,52 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .ml-mini .mll::after{content:"";flex:1;height:1px;background:var(--line)}
 .ml-mini a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--terra);border-bottom:1px solid var(--terra);cursor:pointer}
 
-/* TELAS */
 #telas{background:var(--bone);padding:60px 0 80px}
 .tg{max-width:760px;margin:0 auto;padding:0 24px;display:flex;flex-direction:column;gap:40px}
 .tc{display:flex;flex-direction:column;align-items:center;text-align:center;padding-bottom:36px;border-bottom:1px solid rgba(42,30,20,.08)}
 .tc:last-child{border-bottom:none}
-.tc-name{font-family:var(--display);font-style:italic;font-size:26px;color:var(--ink);margin-bottom:6px}
-.tc-desc{font-size:12px;color:rgba(42,30,20,.5);line-height:1.5;margin-bottom:22px;max-width:420px}
+.tc-name{font-family:var(--display);font-style:italic;font-size:26px;color:var(--ink);line-height:1.2;margin-bottom:6px;letter-spacing:.01em}
+.tc-desc{font-size:12px;color:rgba(42,30,20,.5);line-height:1.5;letter-spacing:.02em;margin-bottom:22px;max-width:420px}
 .tc-dots{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;align-items:flex-start}
 .tc-dot{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;background:none;border:none;padding:0;font-family:inherit;transition:transform .25s var(--ease)}
 .tc-dot:hover{transform:translateY(-2px)}
-.tc-dot-img{width:54px;height:54px;border-radius:50%;overflow:hidden;background:var(--sand);box-shadow:0 2px 6px rgba(42,30,20,.08);transition:box-shadow .25s var(--ease);border:1.5px solid transparent}
+.tc-dot-img{width:54px;height:54px;border-radius:50%;overflow:hidden;background:var(--sand);box-shadow:0 2px 6px rgba(42,30,20,.08);transition:box-shadow .25s var(--ease);border:1.5px solid transparent;display:block;flex-shrink:0}
 .tc-dot:hover .tc-dot-img{box-shadow:0 4px 12px rgba(42,30,20,.18);border-color:var(--sage)}
-.tc-dot-img img{width:100%;height:100%;object-fit:cover}
+.tc-dot-img img{width:100%;height:100%;object-fit:cover;display:block}
 .tc-dot-label{font-size:10px;letter-spacing:.15em;color:rgba(42,30,20,.55);text-transform:uppercase}
-.tc-dot-color .tc-dot-img{border:1.5px solid rgba(42,30,20,.1)}
+.tc-dot-color{cursor:default}
 .tc-dot-color:hover{transform:none}
+.tc-dot-color .tc-dot-img{border:1.5px solid rgba(42,30,20,.1)}
+.tc-dot-color:hover .tc-dot-img{box-shadow:0 2px 6px rgba(42,30,20,.08);border-color:rgba(42,30,20,.1)}
 .tc-empty{font-family:var(--display);font-style:italic;font-size:15px;color:rgba(42,30,20,.45)}
 .telas-foot{text-align:center;font-family:var(--display);font-style:italic;font-size:15px;color:rgba(42,30,20,.5);padding:36px 20px 0;max-width:600px;margin:0 auto}
 
-/* MEDIDAS */
 .med-w{max-width:900px;margin:0 auto;padding:0 20px}
 .med-grid{display:grid;grid-template-columns:1fr;gap:36px;align-items:center}
 @media(min-width:640px){.med-grid{grid-template-columns:240px 1fr}}
+.med-fig svg{width:100%;max-width:280px;margin:0 auto;display:block}
+.med-table-wrap{overflow-x:auto}
 .med-table{width:100%;border-collapse:collapse;text-align:center}
 .med-table th,.med-table td{padding:12px 10px;border-bottom:1px solid var(--line);font-size:13px}
-.med-table th{font-weight:500;letter-spacing:.2em;text-transform:uppercase;font-size:10px;color:var(--terra);padding-bottom:18px}
-.med-table th:first-child,.med-table td:first-child{text-align:left;font-family:var(--display);font-style:italic;font-size:15px;color:var(--ink);text-transform:none;letter-spacing:0}
+.med-table th{font-family:var(--sans);font-weight:500;letter-spacing:.2em;text-transform:uppercase;font-size:10px;color:var(--terra);padding-bottom:18px}
+.med-table th:first-child,.med-table td:first-child{text-align:left;font-family:var(--display);font-style:italic;font-size:15px;color:var(--ink);letter-spacing:0;text-transform:none}
 .med-table tr:last-child td{border-bottom:none}
+.med-table td{color:rgba(42,30,20,.75)}
 .med-nota{font-family:var(--display);font-style:italic;font-size:15px;text-align:center;color:rgba(42,30,20,.6);line-height:1.6;margin-top:40px;max-width:560px;margin-left:auto;margin-right:auto}
 .bwac{display:inline-flex;align-items:center;gap:10px;padding:15px 28px;background:var(--wa);color:#fff;border-radius:3px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;font-weight:500;transition:all .3s var(--ease);margin-top:20px}
 .bwac:hover{background:#1da851}
 .bwac svg{width:16px;height:16px;fill:#fff}
 
-/* FAQ */
 #faq{background:var(--bone);padding:60px 0 80px}
 .faq-l{max-width:800px;margin:0 auto;padding:0 20px}
 .fi{border-bottom:1px solid var(--line)}
-.fq{width:100%;text-align:left;padding:18px 0;display:flex;align-items:center;justify-content:space-between;gap:14px;font-family:var(--display);font-size:clamp(16px,2.8vw,19px);cursor:pointer;background:transparent}
+.fq{width:100%;text-align:left;padding:18px 0;display:flex;align-items:center;justify-content:space-between;gap:14px;font-family:var(--display);font-size:clamp(16px,2.8vw,19px);font-weight:400;cursor:pointer;background:transparent}
 .fq .ico{width:22px;height:22px;flex-shrink:0;border:1px solid var(--line);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .3s var(--ease);font-size:13px}
 .fi.open .ico{transform:rotate(45deg)}
 .fa{max-height:0;overflow:hidden;transition:max-height .45s var(--ease)}
 .fi.open .fa{max-height:400px}
 .fai{padding:0 0 18px;font-family:var(--display);font-style:italic;font-size:16px;line-height:1.6;color:rgba(42,30,20,.78)}
 
-/* PROCESO */
 #proceso{background:var(--sage);color:var(--bone);padding:70px 0 80px}
 .proc-g{max-width:1100px;margin:0 auto;padding:0 20px;display:grid;grid-template-columns:1fr;gap:16px}
 @media(min-width:640px){.proc-g{grid-template-columns:repeat(2,1fr)}}
@@ -221,7 +231,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .paso-t{font-family:var(--display);font-size:19px;font-weight:400;margin-bottom:7px}
 .paso-d{font-size:13px;opacity:.8;line-height:1.5}
 
-/* POLÍTICAS */
 #politicas{background:var(--cream);padding:60px 0 80px}
 .pol-c{max-width:800px;margin:0 auto;padding:0 20px}
 .pol-i{margin-bottom:22px;padding-bottom:22px;border-bottom:1px solid var(--line)}
@@ -230,38 +239,31 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 .pol-i h4::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--terra);flex-shrink:0}
 .pol-i p{font-family:var(--display);font-style:italic;font-size:16px;line-height:1.6;color:rgba(42,30,20,.78)}
 
-/* FOOTER */
 footer{background:var(--sage-deep);color:var(--bone);padding:52px 20px 26px;text-align:center}
 .fl{width:68px;height:68px;border-radius:50%;overflow:hidden;margin:0 auto 16px;background:rgba(245,239,230,.1)}
 .fl img{width:100%;height:100%;object-fit:cover}
-.fb{font-family:var(--display2);font-weight:100;font-size:clamp(32px,7vw,72px);line-height:1;margin-bottom:20px;letter-spacing:.38em;text-indent:.38em;text-transform:uppercase}
+.fb{font-family:var(--display2);font-weight:100;font-size:clamp(32px,7vw,72px);font-weight:100;line-height:1;margin-bottom:20px;letter-spacing:.38em;text-indent:.38em;text-transform:uppercase}
 .fi2{font-size:10px;letter-spacing:.3em;text-transform:uppercase;opacity:.85;margin-bottom:10px}
 footer a{color:inherit;border-bottom:1px solid rgba(245,239,230,.3)}
 .ft{font-size:10px;opacity:.4;border-top:1px solid rgba(245,239,230,.12);padding-top:16px;margin-top:26px;letter-spacing:.1em}
 .ft-credit{font-size:9px;opacity:.28;letter-spacing:.18em;text-transform:uppercase;margin-top:10px}
-.ft-credit a{color:var(--bone);opacity:.9;border-bottom:1px solid rgba(245,239,230,.15);padding-bottom:1px}
+.ft-credit a{color:var(--bone);opacity:.9;border-bottom:1px solid rgba(245,239,230,.15);padding-bottom:1px;transition:opacity .3s var(--ease)}
+.ft-credit a:hover{opacity:1}
 
-/* LIGHTBOX */
+@keyframes secIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.sa{animation:secIn .5s var(--ease)}
+
 .lbx{position:fixed;inset:0;z-index:500;background:rgba(26,20,14,.88);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s var(--ease);backdrop-filter:blur(6px)}
 .lbx.show{opacity:1;pointer-events:auto}
-.lbx-close{position:absolute;top:20px;right:20px;width:40px;height:40px;border-radius:50%;background:rgba(245,239,230,.15);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.lbx-close{position:absolute;top:20px;right:20px;width:40px;height:40px;border-radius:50%;background:rgba(245,239,230,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
+.lbx-close:hover{background:rgba(245,239,230,.28)}
 .lbx-close svg{width:18px;height:18px;stroke:var(--bone);stroke-width:1.8;fill:none}
 .lbx-inner{max-width:min(90vw,640px);max-height:90vh;display:flex;flex-direction:column;align-items:center;gap:14px}
 .lbx-img{max-width:100%;max-height:80vh;object-fit:contain;border-radius:3px}
-.lbx-label{font-family:var(--display);font-style:italic;font-size:14px;color:rgba(245,239,230,.7)}
-
-/* ERROR SHEET */
-.sheet-error{text-align:center;padding:60px 20px;font-family:var(--display);font-style:italic;font-size:18px;color:rgba(42,30,20,.5)}
+.lbx-label{font-family:var(--display);font-style:italic;font-size:14px;color:rgba(245,239,230,.7);letter-spacing:.08em}
 </style>
 </head>
 <body>
-
-<!-- LOADING -->
-<div class="loading-overlay" id="loader">
-  <div class="loader-logo"><img src="assets/sistema/logo-color.jpg" alt="Trigueña"/></div>
-  <div class="loader-text">Trigueña</div>
-  <div class="loader-bar"></div>
-</div>
 
 <nav>
   <div class="nav-logo" onclick="irA('hero')">
@@ -278,7 +280,7 @@ footer a{color:inherit;border-bottom:1px solid rgba(245,239,230,.3)}
   <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1.1 2.8 1.2 3 .1.2 2.1 3.2 5 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.7c1.7 1 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.3zM12 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.3 0-5.5 4.4-9.9 9.9-9.9 2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7 0 5.4-4.5 9.9-9.9 9.9z"/></svg>
 </a>
 
-<button class="home-float" id="homeBtn" onclick="irA('hero')">
+<button class="home-float" id="homeBtn" onclick="irA('hero')" aria-label="Volver al inicio">
   <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 9.5V20h4v-6h6v6h4V9.5"/></svg>
   <span>Inicio</span>
 </button>
@@ -291,44 +293,50 @@ footer a{color:inherit;border-bottom:1px solid rgba(245,239,230,.3)}
     <h1 class="hero-title">Trigueña</h1>
     <p class="hero-tag">Belleza que nace de lo natural.</p>
     <div class="hero-actions">
-      <button class="btn-o" style="background:rgba(245,239,230,.15);border-color:var(--bone)" onclick="irA('categorias')">Ver catálogo <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>
+      <button class="btn-o btn-o-prim" onclick="irA('categorias')">
+        Ver catálogo
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
       <button class="btn-o" onclick="irA('telas')">Ver telas</button>
     </div>
     <div class="hero-hint"><span class="arr">↓</span><span>Deslizá para explorar</span></div>
   </div>
   <div class="hero-right">
-    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-bg" style="background-image:url('assets/sistema/cover-gala.jpg')"></div>
   </div>
 </section>
 
 <div class="sec-div"></div>
 
 <!-- CATEGORÍAS -->
-<section id="categorias" style="padding-top:calc(var(--nav) + 60px);padding-bottom:80px;background:var(--bone)">
+<section id="categorias" class="section">
   <div class="sec-head">
     <div class="kicker">— Colección 2026 —</div>
     <h2 class="sec-t">Elegí tu <em>estilo</em></h2>
     <p class="sec-s">Tres líneas, cada una con sus telas, diseños y precios.</p>
   </div>
-  <div class="cat-grid" id="catGrid">
+  <div class="cat-grid">
     <div class="cc" onclick="abrirCat('gala')">
-      <div class="cc-bg" id="bgGala"></div>
-      <div class="cc-info"><div class="cc-num">Línea I</div><h3>Gala</h3><p>Para eventos y momentos especiales</p><span class="cc-cta">Ver colección →</span></div>
+      <div class="cc-bg" style="background-image:url('assets/sistema/cover-gala.jpg');background-position:center 25%"></div>
+      <div class="cc-badge">Ver →</div>
+      <div class="cc-info"><div class="cc-num">Línea I</div><h3>Gala</h3><p>Manta sedada · Plizada · Para eventos especiales</p><span class="cc-cta">Ver colección →</span></div>
     </div>
     <div class="cc" onclick="abrirCat('semiformal')">
-      <div class="cc-bg" id="bgSF"></div>
-      <div class="cc-info"><div class="cc-num">Línea II</div><h3>Semi-Formal</h3><p>Elegancia y comodidad en cada look</p><span class="cc-cta">Ver colección →</span></div>
+      <div class="cc-bg" style="background-image:url('assets/sistema/cover-sf.jpg');background-position:center 15%"></div>
+      <div class="cc-badge">Ver →</div>
+      <div class="cc-info"><div class="cc-num">Línea II</div><h3>Semi-Formal</h3><p>Licra · Lino · Manta · Para salir con estilo</p><span class="cc-cta">Ver colección →</span></div>
     </div>
     <div class="cc" onclick="abrirCat('boho')">
-      <div class="cc-bg" id="bgBoho"></div>
-      <div class="cc-info"><div class="cc-num">Línea III</div><h3>Boho</h3><p>Libertad, frescura y belleza natural</p><span class="cc-cta">Ver colección →</span></div>
+      <div class="cc-bg" style="background-image:url('assets/sistema/cover-boho.jpg');background-position:center 20%"></div>
+      <div class="cc-badge">Ver →</div>
+      <div class="cc-info"><div class="cc-num">Línea III</div><h3>Boho</h3><p>Lino · Manta · Frescura y movimiento natural</p><span class="cc-cta">Ver colección →</span></div>
     </div>
   </div>
   <div class="qlinks">
-    <button class="qb" onclick="irA('telas')"><div class="qb-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M9.5 12h-2M14.5 12h2M12 9.5v-2M12 14.5v2"/></svg></div><div class="qb-k">Materiales</div><div class="qb-t">Ver telas</div></button>
-    <button class="qb" onclick="irA('medidas')"><div class="qb-icon"><svg viewBox="0 0 24 24"><path d="M3 17L17 3l4 4L7 21z"/><path d="M7 7l2 2M10 4l2 2"/></svg></div><div class="qb-k">Tallas</div><div class="qb-t">Tabla de medidas</div></button>
-    <button class="qb" onclick="irA('faq')"><div class="qb-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="qb-k">Dudas</div><div class="qb-t">Preguntas frecuentes</div></button>
-    <button class="qb" onclick="irA('proceso')"><div class="qb-icon"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></div><div class="qb-k">Compra</div><div class="qb-t">Cómo comprar</div></button>
+    <button class="qb" onclick="irA('telas')"><div class="qb-icon"><svg viewBox="0 0 24 24"><path d="M4 4l16 16M4 20L20 4"/><circle cx="12" cy="12" r="3.5"/><path d="M9.5 12h-2M14.5 12h2M12 9.5v-2M12 14.5v2"/></svg></div><div class="qb-k">Materiales</div><div class="qb-t">Ver telas</div><span class="qb-arr">→</span></button>
+    <button class="qb" onclick="irA('medidas')"><div class="qb-icon"><svg viewBox="0 0 24 24"><path d="M3 17L17 3l4 4L7 21z"/><path d="M7 7l2 2M10 4l2 2M13 7l2 2M7 13l2 2M10 16l2 2"/></svg></div><div class="qb-k">Tallas</div><div class="qb-t">Tabla de medidas</div><span class="qb-arr">→</span></button>
+    <button class="qb" onclick="irA('faq')"><div class="qb-icon"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5z"/></svg></div><div class="qb-k">Dudas</div><div class="qb-t">Preguntas frecuentes</div><span class="qb-arr">→</span></button>
+    <button class="qb" onclick="irA('proceso')"><div class="qb-icon"><svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></div><div class="qb-k">Compra</div><div class="qb-t">Cómo comprar</div><span class="qb-arr">→</span></button>
   </div>
 </section>
 
@@ -339,7 +347,7 @@ footer a{color:inherit;border-bottom:1px solid rgba(245,239,230,.3)}
   <div class="vc-ctrl">
     <button class="back-chip" onclick="irA('categorias')">← Volver</button>
     <div class="vc-head">
-      <div class="vc-left"><div class="kicker" id="vck"></div><h2 id="vct"></h2></div>
+      <div class="vc-left"><div class="kicker" id="vck">—</div><h2 id="vct">—</h2></div>
       <div class="vc-right" id="vcd"></div>
     </div>
   </div>
@@ -359,16 +367,16 @@ footer a{color:inherit;border-bottom:1px solid rgba(245,239,230,.3)}
       <div class="dt" id="dthumbs"></div>
     </div>
     <div class="di">
-      <div class="kicker" id="dkick"></div>
-      <h2 id="dnomb"></h2>
-      <div class="d-precio" id="dprec"></div>
-      <div class="d-tela" id="dtela"></div>
+      <div class="kicker" id="dkick">—</div>
+      <h2 id="dnomb">—</h2>
+      <div class="d-precio" id="dprec">—</div>
+      <div class="d-tela" id="dtela">—</div>
       <div class="d-specs">
-        <div class="d-spec"><span class="l">Categoría</span><span class="v" id="dcat"></span></div>
+        <div class="d-spec"><span class="l">Categoría</span><span class="v" id="dcat">—</span></div>
         <div class="d-spec"><span class="l">Origen</span><span class="v">Costa Rica</span></div>
         <div class="d-spec"><span class="l">Confección</span><span class="v">A medida</span></div>
       </div>
-      <div class="d-tiempos" id="dtiem"></div>
+      <div class="d-tiempos" id="dtiem">—</div>
       <a class="bwaf" id="dwa" href="#" target="_blank">
         <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1.1 2.8 1.2 3 .1.2 2.1 3.2 5 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.7c1.7 1 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.3zM12 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.3 0-5.5 4.4-9.9 9.9-9.9 2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7 0 5.4-4.5 9.9-9.9 9.9z"/></svg>
         Solicitar este diseño
@@ -382,9 +390,11 @@ footer a{color:inherit;border-bottom:1px solid rgba(245,239,230,.3)}
 <div class="sec-div"></div>
 
 <!-- TELAS -->
-<section id="telas" style="padding-top:calc(var(--nav) + 60px);background:var(--bone);padding-bottom:80px">
-  <div class="sec-head"><div class="kicker">— Materiales —</div><h2 class="sec-t">Nuestras <em>telas</em></h2><p class="sec-s">Consultá disponibilidad de tonos por WhatsApp.</p></div>
+<section id="telas" class="section">
+  <div class="sec-head"><div class="kicker">— Materiales —</div><h2 class="sec-t">Nuestras <em>telas</em></h2><p class="sec-s">Cada prenda se confecciona en la tela seleccionada. Consultá disponibilidad de tonos por WhatsApp.</p></div>
   <div class="tg">
+
+    <!-- PLIZADA: mantiene fotos -->
     <div class="tc">
       <div class="tc-name">Plizada</div>
       <div class="tc-desc">Textura plisada con movimiento metalizado.</div>
@@ -394,54 +404,133 @@ footer a{color:inherit;border-bottom:1px solid rgba(245,239,230,.3)}
         <button class="tc-dot" onclick="abrirTono('assets/telas/plizada/terracota-look.jpg','Plizada · Terracota')"><span class="tc-dot-img"><img src="assets/telas/plizada/terracota-look.jpg" alt="Terracota"/></span><span class="tc-dot-label">Terracota</span></button>
         <button class="tc-dot" onclick="abrirTono('assets/telas/plizada/verde-musgo.jpg','Plizada · Verde musgo')"><span class="tc-dot-img"><img src="assets/telas/plizada/verde-musgo.jpg" alt="Verde musgo"/></span><span class="tc-dot-label">V. Musgo</span></button>
         <button class="tc-dot" onclick="abrirTono('assets/telas/plizada/azul.jpg','Plizada · Azul')"><span class="tc-dot-img"><img src="assets/telas/plizada/azul.jpg" alt="Azul"/></span><span class="tc-dot-label">Azul</span></button>
+        <button class="tc-dot" onclick="abrirTono('assets/telas/plizada/terracota.jpg','Plizada · Terracota textura')"><span class="tc-dot-img"><img src="assets/telas/plizada/terracota.jpg" alt="Terracota"/></span><span class="tc-dot-label">Terracota</span></button>
       </div>
     </div>
-    <div class="tc"><div class="tc-name">Manta sedada</div><div class="tc-desc">Caída elegante y brillo sutil.</div><div class="tc-dots"><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#B5522A"></span><span class="tc-dot-label">Terracota</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#2A6B55"></span><span class="tc-dot-label">Esmeralda</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#1C1C1C"></span><span class="tc-dot-label">Negro</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#7B2A42"></span><span class="tc-dot-label">Vino</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#D4C29A"></span><span class="tc-dot-label">Champagne</span></button></div></div>
-    <div class="tc"><div class="tc-name">Lino</div><div class="tc-desc">Natural, fresco y transpirable.</div><div class="tc-dots"><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#C4A882"></span><span class="tc-dot-label">Tierra</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#E8D5A3;border-color:rgba(42,30,20,.15)!important"></span><span class="tc-dot-label">Amarillo</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#2A6B55"></span><span class="tc-dot-label">Esmeralda</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#B8C96E"></span><span class="tc-dot-label">Pera</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#1C1C1C"></span><span class="tc-dot-label">Negro</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#7B2A42"></span><span class="tc-dot-label">Vino</span></button></div></div>
-    <div class="tc"><div class="tc-name">Manta india</div><div class="tc-desc">Textura artesanal y ligera.</div><div class="tc-dots"><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#D4874A"></span><span class="tc-dot-label">Cálidos</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#7AC4A2"></span><span class="tc-dot-label">Menta</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#D91E8C"></span><span class="tc-dot-label">Fucsia</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#F5ECD5;border-color:rgba(42,30,20,.15)!important"></span><span class="tc-dot-label">Blanco</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#5AB8CC"></span><span class="tc-dot-label">Turquesa</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#1C1C1C"></span><span class="tc-dot-label">Negro</span></button></div></div>
-    <div class="tc"><div class="tc-name">Manta</div><div class="tc-desc">Algodón con cuerpo y caída natural.</div><div class="tc-dots"><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#F0ECE4;border-color:rgba(42,30,20,.15)!important"></span><span class="tc-dot-label">Hueso</span></button><button class="tc-dot tc-dot-color"><span class="tc-dot-img" style="background:#7B2A42"></span><span class="tc-dot-label">Vino</span></button></div></div>
+
+    <!-- MANTA SEDADA: solo tonalidad -->
+    <div class="tc">
+      <div class="tc-name">Manta sedada</div>
+      <div class="tc-desc">Caída elegante y brillo sutil.</div>
+      <div class="tc-dots">
+        <button class="tc-dot tc-dot-color" aria-label="Terracota"><span class="tc-dot-img" style="background:#B5522A;"></span><span class="tc-dot-label">Terracota</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Esmeralda"><span class="tc-dot-img" style="background:#2A6B55;"></span><span class="tc-dot-label">Esmeralda</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Negro"><span class="tc-dot-img" style="background:#1C1C1C;"></span><span class="tc-dot-label">Negro</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Vino"><span class="tc-dot-img" style="background:#7B2A42;"></span><span class="tc-dot-label">Vino</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Champagne"><span class="tc-dot-img" style="background:#D4C29A;"></span><span class="tc-dot-label">Champagne</span></button>
+      </div>
+    </div>
+
+    <!-- LINO: solo tonalidad -->
+    <div class="tc">
+      <div class="tc-name">Lino</div>
+      <div class="tc-desc">Natural, fresco y transpirable. 11+ tonos disponibles.</div>
+      <div class="tc-dots">
+        <button class="tc-dot tc-dot-color" aria-label="Tonos tierra"><span class="tc-dot-img" style="background:#C4A882;"></span><span class="tc-dot-label">Tierra</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Amarillo pastel"><span class="tc-dot-img" style="background:#E8D5A3;border-color:rgba(42,30,20,.15)!important;"></span><span class="tc-dot-label">Amarillo</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Esmeralda"><span class="tc-dot-img" style="background:#2A6B55;"></span><span class="tc-dot-label">Esmeralda</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Pera"><span class="tc-dot-img" style="background:#B8C96E;"></span><span class="tc-dot-label">Pera</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Verde esmeralda"><span class="tc-dot-img" style="background:#1B5E4A;"></span><span class="tc-dot-label">V. Esmeralda</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Negro"><span class="tc-dot-img" style="background:#1C1C1C;"></span><span class="tc-dot-label">Negro</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Vino"><span class="tc-dot-img" style="background:#7B2A42;"></span><span class="tc-dot-label">Vino</span></button>
+      </div>
+    </div>
+
+    <!-- MANTA INDIA: solo tonalidad -->
+    <div class="tc">
+      <div class="tc-name">Manta india</div>
+      <div class="tc-desc">Textura artesanal y ligera. 13+ tonos vibrantes.</div>
+      <div class="tc-dots">
+        <button class="tc-dot tc-dot-color" aria-label="Tonos cálidos"><span class="tc-dot-img" style="background:#D4874A;"></span><span class="tc-dot-label">Cálidos</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Menta"><span class="tc-dot-img" style="background:#7AC4A2;"></span><span class="tc-dot-label">Menta</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Fucsia"><span class="tc-dot-img" style="background:#D91E8C;"></span><span class="tc-dot-label">Fucsia</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Blanco arena"><span class="tc-dot-img" style="background:#F5ECD5;border-color:rgba(42,30,20,.15)!important;"></span><span class="tc-dot-label">Blanco</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Turquesa"><span class="tc-dot-img" style="background:#5AB8CC;"></span><span class="tc-dot-label">Turquesa</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Negro"><span class="tc-dot-img" style="background:#1C1C1C;"></span><span class="tc-dot-label">Negro</span></button>
+      </div>
+    </div>
+
+    <!-- MANTA: solo tonalidad -->
+    <div class="tc">
+      <div class="tc-name">Manta</div>
+      <div class="tc-desc">Algodón con cuerpo y caída natural.</div>
+      <div class="tc-dots">
+        <button class="tc-dot tc-dot-color" aria-label="Hueso"><span class="tc-dot-img" style="background:#F0ECE4;border-color:rgba(42,30,20,.15)!important;"></span><span class="tc-dot-label">Hueso</span></button>
+        <button class="tc-dot tc-dot-color" aria-label="Vino"><span class="tc-dot-img" style="background:#7B2A42;"></span><span class="tc-dot-label">Vino</span></button>
+      </div>
+    </div>
+
+    <div class="tc">
+      <div class="tc-name">Manta colombiana</div>
+      <div class="tc-desc">Ligera y versátil con textura suave.</div>
+      <div class="tc-empty">Tonos disponibles por consulta</div>
+    </div>
+
+    <div class="tc">
+      <div class="tc-name">Licra colombiana</div>
+      <div class="tc-desc">Elástica, cómoda y moldeadora.</div>
+      <div class="tc-empty">Tonos según diseño</div>
+    </div>
+
   </div>
   <p class="telas-foot">Consulte por todos los tonos disponibles vía WhatsApp.</p>
 </section>
 
-<!-- LIGHTBOX -->
+<!-- LIGHTBOX MODAL -->
 <div class="lbx" id="lbx" onclick="cerrarTono(event)">
-  <button class="lbx-close" onclick="cerrarTono(event)"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-  <div class="lbx-inner"><img class="lbx-img" id="lbxImg" src="" alt=""/><div class="lbx-label" id="lbxLabel"></div></div>
+  <button class="lbx-close" onclick="cerrarTono(event)" aria-label="Cerrar"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <div class="lbx-inner">
+    <img class="lbx-img" id="lbxImg" src="" alt=""/>
+    <div class="lbx-label" id="lbxLabel"></div>
+  </div>
 </div>
 
 <div class="sec-div"></div>
 
 <!-- MEDIDAS -->
-<section id="medidas" style="padding-top:calc(var(--nav) + 60px);background:var(--bone);padding-bottom:80px">
+<section id="medidas" class="section">
   <div class="sec-head"><div class="kicker">— Guía de tallas —</div><h2 class="sec-t">Tabla de <em>medidas</em></h2><p class="sec-s">Tomá tus medidas antes de hacer tu pedido.</p></div>
   <div class="med-w">
     <div class="med-grid">
-      <div>
-        <svg viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:240px;margin:0 auto;display:block">
+      <div class="med-fig">
+        <svg viewBox="0 0 280 380" xmlns="http://www.w3.org/2000/svg" aria-label="Diagrama de medidas">
           <g fill="none" stroke="#8a9a7b" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
             <ellipse cx="110" cy="30" rx="14" ry="17"/>
-            <path d="M104 46 Q105 54 102 60"/><path d="M116 46 Q115 54 118 60"/>
-            <path d="M102 60 Q72 64 68 92"/><path d="M118 60 Q148 64 152 92"/>
-            <path d="M68 92 Q60 130 58 168 Q58 178 62 186"/><path d="M152 92 Q160 130 162 168 Q162 178 158 186"/>
-            <path d="M68 92 Q72 120 80 138"/><path d="M152 92 Q148 120 140 138"/>
-            <path d="M80 138 Q84 152 82 168"/><path d="M140 138 Q136 152 138 168"/>
-            <path d="M82 168 Q70 188 72 218"/><path d="M138 168 Q150 188 148 218"/>
-            <path d="M72 218 Q76 280 82 340"/><path d="M148 218 Q144 280 138 340"/>
+            <path d="M104 46 Q105 54 102 60"/>
+            <path d="M116 46 Q115 54 118 60"/>
+            <path d="M102 60 Q72 64 68 92"/>
+            <path d="M118 60 Q148 64 152 92"/>
+            <path d="M68 92 Q60 130 58 168 Q58 178 62 186"/>
+            <path d="M152 92 Q160 130 162 168 Q162 178 158 186"/>
+            <path d="M68 92 Q72 120 80 138"/>
+            <path d="M152 92 Q148 120 140 138"/>
+            <path d="M80 138 Q84 152 82 168"/>
+            <path d="M140 138 Q136 152 138 168"/>
+            <path d="M82 168 Q70 188 72 218"/>
+            <path d="M138 168 Q150 188 148 218"/>
+            <path d="M72 218 Q76 280 82 340"/>
+            <path d="M148 218 Q144 280 138 340"/>
+            <path d="M110 220 L110 340" stroke-dasharray="2,3" opacity=".4"/>
           </g>
           <g stroke="#8a9a7b" stroke-width="1" fill="none">
             <line x1="55" y1="98" x2="165" y2="98" stroke-dasharray="3,2"/>
             <line x1="68" y1="152" x2="152" y2="152" stroke-dasharray="3,2"/>
             <line x1="60" y1="195" x2="160" y2="195" stroke-dasharray="3,2"/>
           </g>
-          <g font-family="Cormorant Garamond,serif" font-style="italic" font-size="11" fill="#5a4a3a">
-            <line x1="165" y1="98" x2="190" y2="98" stroke="#8a9a7b" stroke-width="1"/><circle cx="190" cy="98" r="2" fill="#8a9a7b"/><text x="195" y="101">Busto</text>
-            <line x1="152" y1="152" x2="190" y2="152" stroke="#8a9a7b" stroke-width="1"/><circle cx="190" cy="152" r="2" fill="#8a9a7b"/><text x="195" y="155">Cintura</text>
-            <line x1="160" y1="195" x2="190" y2="195" stroke="#8a9a7b" stroke-width="1"/><circle cx="190" cy="195" r="2" fill="#8a9a7b"/><text x="195" y="198">Cadera</text>
+          <g font-family="Cormorant Garamond, serif" font-style="italic" font-size="11" fill="#5a4a3a">
+            <line x1="165" y1="98" x2="190" y2="98" stroke="#8a9a7b" stroke-width="1"/>
+            <circle cx="190" cy="98" r="2" fill="#8a9a7b"/>
+            <text x="195" y="101">Busto</text>
+            <line x1="152" y1="152" x2="190" y2="152" stroke="#8a9a7b" stroke-width="1"/>
+            <circle cx="190" cy="152" r="2" fill="#8a9a7b"/>
+            <text x="195" y="155">Cintura</text>
+            <line x1="160" y1="195" x2="190" y2="195" stroke="#8a9a7b" stroke-width="1"/>
+            <circle cx="190" cy="195" r="2" fill="#8a9a7b"/>
+            <text x="195" y="198">Cadera</text>
           </g>
         </svg>
       </div>
-      <div style="overflow-x:auto">
+      <div class="med-table-wrap">
         <table class="med-table">
           <thead><tr><th>Talla</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th></tr></thead>
           <tbody>
@@ -454,49 +543,63 @@ footer a{color:inherit;border-bottom:1px solid rgba(245,239,230,.3)}
       </div>
     </div>
     <p class="med-nota">¿No encontrás tu talla? Todas nuestras prendas se pueden personalizar a tus medidas exactas.</p>
-    <div style="text-align:center"><a class="bwac" href="https://wa.me/50671512102?text=Hola,%20necesito%20ayuda%20con%20mi%20talla" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1.1 2.8 1.2 3 .1.2 2.1 3.2 5 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.7c1.7 1 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.3zM12 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.3 0-5.5 4.4-9.9 9.9-9.9 2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7 0 5.4-4.5 9.9-9.9 9.9z"/></svg>Consultar mi talla</a></div>
+    <div style="text-align:center">
+      <a class="bwac" href="https://wa.me/50671512102?text=Hola,%20necesito%20ayuda%20con%20mi%20talla" target="_blank">
+        <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1.1 2.8 1.2 3 .1.2 2.1 3.2 5 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.7c1.7 1 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.3zM12 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.3 0-5.5 4.4-9.9 9.9-9.9 2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7 0 5.4-4.5 9.9-9.9 9.9z"/></svg>
+        Consultar mi talla
+      </a>
+    </div>
   </div>
 </section>
 
 <div class="sec-div"></div>
 
 <!-- FAQ -->
-<section id="faq" style="padding-top:calc(var(--nav) + 60px);background:var(--bone);padding-bottom:80px">
+<section id="faq" class="section">
   <div class="sec-head"><div class="kicker">— Información —</div><h2 class="sec-t">Preguntas <em>frecuentes</em></h2></div>
   <div class="faq-l">
     <div class="fi"><button class="fq" onclick="this.closest('.fi').classList.toggle('open')">¿Cuentan con tienda física?<span class="ico">+</span></button><div class="fa"><div class="fai">No. Operamos de forma 100% virtual, sin atención presencial.</div></div></div>
-    <div class="fi"><button class="fq" onclick="this.closest('.fi').classList.toggle('open')">¿Cómo puedo agendar?<span class="ico">+</span></button><div class="fa"><div class="fai">Podés asegurar tu espacio con un abono del 40% del valor total.</div></div></div>
+    <div class="fi"><button class="fq" onclick="this.closest('.fi').classList.toggle('open')">¿Cómo puedo agendar?<span class="ico">+</span></button><div class="fa"><div class="fai">Podés asegurar tu espacio con un abono del 40% del valor total. Trabajamos con cupo limitado por mes, por lo que recomendamos agendar con anticipación.</div></div></div>
     <div class="fi"><button class="fq" onclick="this.closest('.fi').classList.toggle('open')">¿Cuál es el tiempo de entrega?<span class="ico">+</span></button><div class="fa"><div class="fai">Gala: 30 días hábiles. Boho y Semi-Formal: 15 días hábiles.</div></div></div>
+    <div class="fi"><button class="fq" onclick="this.closest('.fi').classList.toggle('open')">¿Cómo elijo mi talla?<span class="ico">+</span></button><div class="fa"><div class="fai">Trabajamos con tabla de medidas estándar. También podés personalizar tu vestido según tus medidas básicas.</div></div></div>
+    <div class="fi"><button class="fq" onclick="this.closest('.fi').classList.toggle('open')">¿Realizan ajustes?<span class="ico">+</span></button><div class="fa"><div class="fai">No realizamos ajustes antes ni después de la confección. Es importante que las medidas enviadas sean correctas.</div></div></div>
     <div class="fi"><button class="fq" onclick="this.closest('.fi').classList.toggle('open')">¿Cómo es el proceso de pago?<span class="ico">+</span></button><div class="fa"><div class="fai">Se requiere un 40% para confirmar el pedido, por SINPE Móvil o transferencia bancaria. El resto se cancela previo a la entrega.</div></div></div>
     <div class="fi"><button class="fq" onclick="this.closest('.fi').classList.toggle('open')">¿Cómo recibo mi pedido?<span class="ico">+</span></button><div class="fa"><div class="fai">Por Correos de Costa Rica (₡3.800 adicional) o retiro en San Ramón de Alajuela los viernes de 4pm a 8pm.</div></div></div>
-    <div class="fi"><button class="fq" onclick="this.closest('.fi').classList.toggle('open')">¿Puedo elegir el color?<span class="ico">+</span></button><div class="fa"><div class="fai">Sí. Los colores varían según la tela. Consultanos por WhatsApp para ver tonos disponibles.</div></div></div>
+    <div class="fi"><button class="fq" onclick="this.closest('.fi').classList.toggle('open')">¿Puedo elegir el color?<span class="ico">+</span></button><div class="fa"><div class="fai">Sí. Los colores varían según la tela y la categoría. Consultanos por WhatsApp para ver los tonos disponibles.</div></div></div>
   </div>
 </section>
 
 <div class="sec-div"></div>
 
 <!-- PROCESO -->
-<section id="proceso" style="padding-top:calc(var(--nav) + 70px);padding-bottom:80px">
-  <div class="sec-head"><div class="kicker">— Paso a paso —</div><h2 class="sec-t" style="color:var(--bone)">Cómo <em>comprar</em></h2></div>
+<section id="proceso" class="section">
+  <div class="sec-head"><div class="kicker">— Paso a paso —</div><h2 class="sec-t" style="color:var(--bone)">Cómo <em>comprar</em></h2><p class="sec-s" style="color:rgba(245,239,230,.8)">Todo 100% virtual, por WhatsApp e Instagram.</p></div>
   <div class="proc-g">
     <div class="paso"><div class="paso-n">01</div><div class="paso-t">Elegís tu diseño</div><p class="paso-d">Explorás el catálogo y seleccionás la prenda, tela y talla.</p></div>
-    <div class="paso"><div class="paso-n">02</div><div class="paso-t">Reservás con el 40%</div><p class="paso-d">Hacés el depósito por SINPE o transferencia y enviás el comprobante.</p></div>
-    <div class="paso"><div class="paso-n">03</div><div class="paso-t">Confeccionamos</div><p class="paso-d">Gala: 30 días hábiles. Boho y Semi-Formal: 15 días hábiles.</p></div>
-    <div class="paso"><div class="paso-n">04</div><div class="paso-t">Entrega</div><p class="paso-d">Correos de Costa Rica o retiro en San Ramón los viernes.</p></div>
+    <div class="paso"><div class="paso-n">02</div><div class="paso-t">Reservás con el 40%</div><p class="paso-d">Hacés el depósito por SINPE o transferencia y enviás el comprobante con tu nombre.</p></div>
+    <div class="paso"><div class="paso-n">03</div><div class="paso-t">Confeccionamos</div><p class="paso-d">Gala: 30 días hábiles. Boho y Semi-Formal: 15 días hábiles. A tu medida.</p></div>
+    <div class="paso"><div class="paso-n">04</div><div class="paso-t">Entrega</div><p class="paso-d">Correos de Costa Rica (₡3.800) o retiro en San Ramón los viernes de 4pm a 8pm.</p></div>
   </div>
-  <div style="text-align:center;margin-top:36px"><a class="wa-btn" href="https://wa.me/50671512102?text=Hola,%20quiero%20hacer%20un%20pedido" target="_blank" style="display:inline-flex"><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1.1 2.8 1.2 3 .1.2 2.1 3.2 5 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.7c1.7 1 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.3zM12 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.3 0-5.5 4.4-9.9 9.9-9.9 2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7 0 5.4-4.5 9.9-9.9 9.9z"/></svg>Hacer mi pedido ahora</a></div>
+  <div style="text-align:center;margin-top:36px">
+    <a class="wa-btn" href="https://wa.me/50671512102?text=Hola,%20quiero%20hacer%20un%20pedido" target="_blank" style="display:inline-flex">
+      <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.2-1.8-.9-2.1-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.2-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1.1 2.8 1.2 3 .1.2 2.1 3.2 5 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.7c1.7 1 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.3zM12 21.8c-1.8 0-3.6-.5-5.1-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.3 0-5.5 4.4-9.9 9.9-9.9 2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.4 2.9 7 0 5.4-4.5 9.9-9.9 9.9z"/></svg>
+      Hacer mi pedido ahora
+    </a>
+  </div>
 </section>
 
 <div class="sec-div"></div>
 
 <!-- POLÍTICAS -->
-<section id="politicas" style="padding-top:calc(var(--nav) + 60px);background:var(--cream);padding-bottom:80px">
+<section id="politicas" class="section">
   <div class="sec-head"><div class="kicker">— Importante —</div><h2 class="sec-t">Política de <em>cambios</em></h2></div>
   <div class="pol-c">
     <div class="pol-i"><h4>Diseños personalizados</h4><p>No tienen cambio ni devolución, ya que se elaboran exclusivamente según tu solicitud.</p></div>
     <div class="pol-i"><h4>Tallas personalizadas</h4><p>Asegurate de tomar correctamente tus medidas. Las prendas con talla personalizada no aplican para cambios ni devoluciones.</p></div>
-    <div class="pol-i"><h4>Tallas estándar</h4><p>Si no te queda, podés cambiarla por otra talla o diseño de valor equivalente.</p></div>
+    <div class="pol-i"><h4>Tallas estándar</h4><p>Si no te queda, podés cambiarla por otra talla o diseño de valor equivalente. No realizamos devoluciones de dinero.</p></div>
+    <div class="pol-i"><h4>Condiciones</h4><p>Es indispensable devolver la prenda limpia y en buen estado. No se aceptan cambios si llega sucia, manchada o con mal olor.</p></div>
     <div class="pol-i"><h4>Plazo</h4><p>El plazo máximo para solicitar un cambio es de 30 días desde la fecha de entrega.</p></div>
+    <div class="pol-i"><h4>Costos de envío</h4><p>Los costos de envío de los cambios corren por cuenta de la clienta.</p></div>
   </div>
 </section>
 
@@ -506,188 +609,175 @@ footer a{color:inherit;border-bottom:1px solid rgba(245,239,230,.3)}
   <p style="font-family:var(--display);font-style:italic;font-size:16px;opacity:.7;margin-bottom:20px;">Belleza que nace de lo natural.</p>
   <div class="fi2">Costa Rica · 100% Virtual · +506 7151-2102</div>
   <div class="fi2"><a href="https://wa.me/50671512102" target="_blank">WhatsApp</a> · <a href="https://www.instagram.com/triguena.cr" target="_blank">@triguena.cr</a></div>
+  <div style="margin-top:18px"><button onclick="irA('politicas')" style="font-size:10px;letter-spacing:.25em;text-transform:uppercase;opacity:.55;border-bottom:1px solid rgba(245,239,230,.3);cursor:pointer;color:var(--bone);background:none;padding-bottom:2px">Política de cambios</button></div>
   <div class="ft">© 2026 Trigueña — Hecha en Costa Rica.</div>
-  <div class="ft-credit">Sitio creado por <a href="https://www.instagram.com/visualita.studio" target="_blank">Visualita Studio</a></div>
+  <div class="ft-credit">Sitio creado por <a href="https://www.instagram.com/visualita.studio" target="_blank" rel="noopener">Visualita Studio</a></div>
 </footer>
 
 <script>
-// ============================================================
-// CONFIGURACIÓN — Solo cambiar el ID del Google Sheet
-// ============================================================
-const SHEET_ID = '105BhILfk_kcekVkew1uxrchGFBHAl3l2QqXr6g5L0tg';
-
-// Nombres de pestañas en el Sheet
-const TABS = {
-  colecciones: 'colecciones',
-  gala: 'gala',
-  semiformal: 'semiformal',
-  boho: 'boho'
+const D={
+  gala:{
+    kicker:'— Línea I · Gala',
+    titulo:'Colección <em>Gala</em>',
+    desc:'Para momentos inolvidables. Elegancia, feminidad y detalles confeccionados a mano.',
+    longDesc:'Una línea creada para momentos inolvidables. Nuestros diseños de gala combinan elegancia, feminidad y detalles cuidadosamente confeccionados para hacerte sentir auténtica, segura y sofisticada en cada ocasión especial. Siluetas que estilizan, telas fluidas y acabados delicados que convierten cada pieza en una experiencia exclusiva. Perfectos para bodas, celebraciones, graduaciones y eventos donde tu presencia merece destacar. Cada diseño es confeccionado bajo pedido y con atención a cada detalle, porque creemos que vestir elegante también debe sentirse especial. — Trigueña Studio',
+    tiempos:'Tiempo de confección: <strong>30 días hábiles</strong><br>Reserva con el <strong>40% del total</strong>.',
+    prendas:[
+      {n:'ASIRIS',p:'₡75.900',t:'Manta sedada',f:['assets/gala/asiris-1.jpg','assets/gala/asiris-2.jpg','assets/gala/asiris-3.jpg','assets/gala/asiris-4.jpg','assets/gala/asiris-5.jpg']},
+      {n:'AURA',p:'₡72.900',t:'Manta sedada',f:['assets/gala/aura-1.jpg','assets/gala/aura-2.jpg','assets/gala/aura-3.jpg','assets/gala/aura-4.jpg']},
+      {n:'BEGONIA',p:'₡75.900',t:'Manta sedada',f:['assets/gala/begonia-1.jpg','assets/gala/begonia-2.jpg','assets/gala/begonia-3.jpg','assets/gala/begonia-4.jpg']},
+      {n:'BERE',p:'₡79.900',t:'Manta sedada',f:['assets/gala/bere-1.jpg','assets/gala/bere-2.jpg','assets/gala/bere-3.jpg']},
+      {n:'BRUNA',p:'₡75.900',t:'Manta sedada',f:['assets/gala/bruna-1.jpg','assets/gala/bruna-2.jpg','assets/gala/bruna-3.jpg','assets/gala/bruna-4.jpg']},
+      {n:'CARMELIA',p:'₡69.900',t:'Manta sedada',f:['assets/gala/carmelia-1.jpg','assets/gala/carmelia-2.jpg','assets/gala/carmelia-3.jpg','assets/gala/carmelia-4.jpg']},
+      {n:'CARMONA',p:'₡82.900',t:'Manta sedada',f:['assets/gala/carmona-1.jpg','assets/gala/carmona-2.jpg','assets/gala/carmona-3.jpg','assets/gala/carmona-4.jpg','assets/gala/carmona-5.jpg']},
+      {n:'DALYLA',p:'₡75.900',t:'Manta sedada',f:['assets/gala/dalyla-1.jpg','assets/gala/dalyla-2.jpg','assets/gala/dalyla-3.jpg','assets/gala/dalyla-4.jpg']},
+      {n:'ELI',p:'₡69.900',t:'Manta sedada',f:['assets/gala/eli-1.jpg','assets/gala/eli-2.jpg','assets/gala/eli-3.jpg','assets/gala/eli-4.jpg','assets/gala/eli-5.jpg','assets/gala/eli-6.jpg']},
+      {n:'ELIZABETH',p:'₡72.900',t:'Manta sedada',f:['assets/gala/elizabeth-1.jpg','assets/gala/elizabeth-2.jpg','assets/gala/elizabeth-3.jpg','assets/gala/elizabeth-4.jpg']},
+      {n:'GRECA',p:'₡77.900',t:'Manta sedada',f:['assets/gala/greca-1.jpg','assets/gala/greca-2.jpg','assets/gala/greca-3.jpg','assets/gala/greca-4.jpg']},
+      {n:'ILEN',p:'₡75.900',t:'Manta sedada',f:['assets/gala/ilen-1.jpg','assets/gala/ilen-2.jpg','assets/gala/ilen-3.jpg','assets/gala/ilen-4.jpg','assets/gala/ilen-5.jpg']},
+      {n:'JULIA',p:'₡75.900',t:'Manta sedada',f:['assets/gala/julia-1.jpg','assets/gala/julia-2.jpg','assets/gala/julia-3.jpg','assets/gala/julia-4.jpg']},
+      {n:'KIKI',p:'₡69.900',t:'Manta sedada',f:['assets/gala/kiki-1.jpg','assets/gala/kiki-2.jpg','assets/gala/kiki-3.jpg','assets/gala/kiki-4.jpg','assets/gala/kiki-5.jpg']},
+      {n:'LARA',p:'₡79.900',t:'Manta sedada',f:['assets/gala/lara-1.jpg','assets/gala/lara-2.jpg','assets/gala/lara-3.jpg','assets/gala/lara-4.jpg','assets/gala/lara-5.jpg','assets/gala/lara-6.jpg']},
+      {n:'LISSY',p:'₡72.900',t:'Manta sedada',f:['assets/gala/lissy-1.jpg','assets/gala/lissy-2.jpg','assets/gala/lissy-3.jpg','assets/gala/lissy-4.jpg']},
+      {n:'MARGARITA',p:'₡82.900',t:'Manta sedada',f:['assets/gala/margarita-1.jpg','assets/gala/margarita-2.jpg','assets/gala/margarita-3.jpg','assets/gala/margarita-4.jpg']},
+      {n:'MIKA',p:'₡82.900',t:'Manta sedada',f:['assets/gala/mika-1.jpg','assets/gala/mika-2.jpg','assets/gala/mika-3.jpg','assets/gala/mika-4.jpg']},
+      {n:'MILENA',p:'₡79.900',t:'Manta sedada',f:['assets/gala/milena-1.jpg','assets/gala/milena-2.jpg','assets/gala/milena-3.jpg','assets/gala/milena-4.jpg']},
+      {n:'PARIS',p:'₡75.900',t:'Manta sedada',f:['assets/gala/paris-1.jpg','assets/gala/paris-2.jpg','assets/gala/paris-3.jpg','assets/gala/paris-4.jpg','assets/gala/paris-5.jpg']},
+      {n:'PILY set',p:'₡82.900',t:'Manta sedada',f:['assets/gala/pily-set-1.jpg','assets/gala/pily-set-2.jpg','assets/gala/pily-set-3.jpg','assets/gala/pily-set-4.jpg']},
+      {n:'ROMA',p:'₡69.900',t:'Manta sedada',f:['assets/gala/roma-1.jpg','assets/gala/roma-2.jpg','assets/gala/roma-3.jpg','assets/gala/roma-4.jpg']},
+      {n:'SARA',p:'₡75.900',t:'Manta sedada',f:['assets/gala/sara-1.jpg','assets/gala/sara-2.jpg','assets/gala/sara-3.jpg','assets/gala/sara-4.jpg']},
+      {n:'SIRA',p:'₡72.900',t:'Manta sedada',f:['assets/gala/sira-1.jpg','assets/gala/sira-2.jpg','assets/gala/sira-3.jpg']},
+      {n:'TANY set',p:'₡79.900',t:'Manta sedada',f:['assets/gala/tany-set-1.jpg','assets/gala/tany-set-2.jpg','assets/gala/tany-set-3.jpg','assets/gala/tany-set-4.jpg','assets/gala/tany-set-5.jpg']},
+      {n:'VIKA',p:'₡69.900',t:'Manta sedada',f:['assets/gala/vika-1.jpg','assets/gala/vika-2.jpg','assets/gala/vika-3.jpg']},
+      {n:'VIKY',p:'₡72.900',t:'Manta sedada',f:['assets/gala/viky-1.jpg','assets/gala/viky-2.jpg','assets/gala/viky-3.jpg','assets/gala/viky-4.jpg']},
+      {n:'ZIOME',p:'₡75.900',t:'Manta sedada',f:['assets/gala/ziome-1.jpg','assets/gala/ziome-2.jpg','assets/gala/ziome-3.jpg','assets/gala/ziome-4.jpg']},
+      {n:'BELICE',p:'₡69.900',t:'Manta sedada',f:['assets/gala/belice-1.jpg','assets/gala/belice-2.jpg']},
+      {n:'LUISA',p:'₡75.900',t:'Manta sedada',f:['assets/gala/luisa-1.jpg','assets/gala/luisa-2.jpg','assets/gala/luisa-3.jpg','assets/gala/luisa-4.jpg']},
+      {n:'LISMAR',p:'₡72.900',t:'Manta sedada',f:['assets/gala/lismar-1.jpg','assets/gala/lismar-2.jpg','assets/gala/lismar-3.jpg']},
+      {n:'MAR',p:'₡75.900',t:'Manta sedada',f:['assets/gala/mar-1.jpg','assets/gala/mar-2.jpg']},
+      {n:'MOCCA',p:'₡72.900',t:'Manta sedada',f:['assets/gala/mocca-1.jpg','assets/gala/mocca-2.jpg','assets/gala/mocca-3.jpg','assets/gala/mocca-4.jpg']},
+      {n:'ROBERTA',p:'₡75.900',t:'Manta sedada',f:['assets/gala/roberta-1.jpg','assets/gala/roberta-2.jpg','assets/gala/roberta-3.jpg','assets/gala/roberta-4.jpg']},
+      {n:'VALE',p:'₡72.900',t:'Manta sedada',f:['assets/gala/vale-1.jpg','assets/gala/vale-2.jpg','assets/gala/vale-3.jpg']},
+      {n:'VICTORIA II',p:'₡75.900',t:'Manta sedada',f:['assets/gala/victoria-ii-1.jpg','assets/gala/victoria-ii-2.jpg','assets/gala/victoria-ii-3.jpg']},
+      {n:'VIKA',p:'₡69.900',t:'Manta sedada',f:['assets/gala/vika-1.jpg','assets/gala/vika-2.jpg','assets/gala/vika-3.jpg']},
+      {n:'YIYI',p:'₡72.900',t:'Manta sedada',f:['assets/gala/yiyi-1.jpg','assets/gala/yiyi-2.jpg','assets/gala/yiyi-3.jpg']},
+      {n:'ELI',p:'₡69.900',t:'Manta sedada',f:['assets/gala/eli-1.jpg','assets/gala/eli-2.jpg','assets/gala/eli-3.jpg','assets/gala/eli-4.jpg','assets/gala/eli-5.jpg','assets/gala/eli-6.jpg']}
+    ]
+  },
+  semiformal:{
+    kicker:'— Línea II · Semi-Formal',
+    titulo:'Colección <em>Semi-Formal</em>',
+    desc:'Elegancia sin perder comodidad. Siluetas femeninas para días y noches especiales.',
+    longDesc:'Diseños creados para mujeres que aman lucir elegantes sin perder comodidad y autenticidad. Nuestra línea semi-formal combina siluetas femeninas, telas suaves y detalles únicos que elevan cada look de una manera sutil y sofisticada. Piezas versátiles ideales para sesiones de fotos, baby shower, cenas, celebraciones especiales, eventos de día o una salida con estilo. Porque vestir bien también puede sentirse ligero, natural y auténtico. — Trigueña Studio',
+    tiempos:'Tiempo de confección: <strong>15 días hábiles</strong><br>Reserva con el <strong>40% del total</strong>.',
+    prendas:[
+      {n:'ANTONELLA',p:'₡55.900',t:'Manta',f:['assets/sf/antonella-1.jpg','assets/sf/antonella-2.jpg','assets/sf/antonella-3.jpg']},
+      {n:'ANYE',p:'₡49.900',t:'Lino',f:['assets/sf/anye-1.jpg','assets/sf/anye-2.jpg']},
+      {n:'ASHLEY',p:'₡55.900',t:'Manta',f:['assets/sf/ashley-1.jpg','assets/sf/ashley-2.jpg','assets/sf/ashley-3.jpg']},
+      {n:'CATALINA',p:'₡59.900',t:'Lino',f:['assets/sf/catalina-1.jpg','assets/sf/catalina-2.jpg','assets/sf/catalina-3.jpg','assets/sf/catalina-4.jpg']},
+      {n:'FÁTIMA',p:'₡52.900',t:'Lino',f:['assets/sf/fátima-1.jpg','assets/sf/fátima-2.jpg','assets/sf/fátima-3.jpg']},
+      {n:'GENARA',p:'₡49.900',t:'Lino',f:['assets/sf/genara-1.jpg','assets/sf/genara-2.jpg']},
+      {n:'GLENDA',p:'₡55.900',t:'Manta',f:['assets/sf/glenda-1.jpg','assets/sf/glenda-2.jpg','assets/sf/glenda-3.jpg','assets/sf/glenda-4.jpg']},
+      {n:'INDIANA',p:'₡59.900',t:'Lino',f:['assets/sf/indiana-1.jpg','assets/sf/indiana-2.jpg','assets/sf/indiana-3.jpg','assets/sf/indiana-4.jpg']},
+      {n:'LUNA',p:'₡52.900',t:'Manta',f:['assets/sf/luna-1.jpg','assets/sf/luna-2.jpg','assets/sf/luna-3.jpg']},
+      {n:'VICTORIA',p:'₡55.900',t:'Lino',f:['assets/sf/victoria-1.jpg','assets/sf/victoria-2.jpg']}
+    ]
+  },
+  boho:{
+    kicker:'— Línea III · Boho',
+    titulo:'Colección <em>Boho</em>',
+    desc:'Libertad, frescura y belleza natural. Lino, manta y texturas con esencia cálida.',
+    longDesc:'Una colección inspirada en la libertad, la frescura y la belleza de lo natural. Nuestros diseños boho combinan telas livianas, siluetas relajadas y detalles femeninos que crean looks auténticos, cómodos y llenos de estilo. Piezas versátiles con movimiento natural, ideales para días especiales, escapadas, brunch, atardeceres y mujeres que aman vestir elegante de una manera más libre y effortless. Lino, manta y texturas suaves se unen para crear diseños con esencia cálida, natural y sofisticada. — Trigueña Studio',
+    tiempos:'Tiempo de confección: <strong>15 días hábiles</strong><br>Reserva con el <strong>40% del total</strong>.',
+    prendas:[
+      {n:'AITANA',p:'₡55.900',t:'Lino',f:['assets/boho/aitana-1.jpg','assets/boho/aitana-2.jpg','assets/boho/aitana-3.jpg','assets/boho/aitana-4.jpg','assets/boho/aitana-5.jpg','assets/boho/aitana-6.jpg','assets/boho/aitana-7.jpg','assets/boho/aitana-8.jpg']},
+      {n:'ATENEA corta',p:'₡49.900',t:'Lino',f:['assets/boho/atenea-corta-1.jpg','assets/boho/atenea-corta-2.jpg','assets/boho/atenea-corta-3.jpg','assets/boho/atenea-corta-4.jpg']},
+      {n:'ATENEA larga',p:'₡55.900',t:'Lino',f:['assets/boho/atenea-larga-1.jpg','assets/boho/atenea-larga-2.jpg']},
+      {n:'AZUCENA set',p:'₡65.900',t:'Manta india',f:['assets/boho/azucena-set-1.jpg','assets/boho/azucena-set-2.jpg','assets/boho/azucena-set-3.jpg','assets/boho/azucena-set-4.jpg']},
+      {n:'BERENICE set',p:'₡65.900',t:'Manta india',f:['assets/boho/berenice-set-1.jpg','assets/boho/berenice-set-2.jpg','assets/boho/berenice-set-3.jpg','assets/boho/berenice-set-4.jpg']},
+      {n:'CALA',p:'₡52.900',t:'Lino',f:['assets/boho/cala-1.jpg','assets/boho/cala-2.jpg','assets/boho/cala-3.jpg']},
+      {n:'CATALINA enterizo',p:'₡59.900',t:'Lino',f:['assets/boho/catalina-enterizo-1.jpg','assets/boho/catalina-enterizo-2.jpg','assets/boho/catalina-enterizo-3.jpg','assets/boho/catalina-enterizo-4.jpg']},
+      {n:'COCO enterizo',p:'₡55.900',t:'Lino',f:['assets/boho/coco-enterizo-1.jpg','assets/boho/coco-enterizo-2.jpg','assets/boho/coco-enterizo-3.jpg','assets/boho/coco-enterizo-4.jpg']},
+      {n:'ESTHER',p:'₡52.900',t:'Lino',f:['assets/boho/esther-1.jpg','assets/boho/esther-2.jpg','assets/boho/esther-3.jpg']},
+      {n:'FRIDA',p:'₡49.900',t:'Manta india',f:['assets/boho/frida-1.jpg','assets/boho/frida-2.jpg']},
+      {n:'GALY',p:'₡52.900',t:'Lino',f:['assets/boho/galy-1.jpg','assets/boho/galy-2.jpg']},
+      {n:'GENARA set',p:'₡65.900',t:'Manta india',f:['assets/boho/genara-set-1.jpg','assets/boho/genara-set-2.jpg','assets/boho/genara-set-3.jpg','assets/boho/genara-set-4.jpg']},
+      {n:'ISABELLA set',p:'₡65.900',t:'Manta india',f:['assets/boho/isabella-set-1.jpg','assets/boho/isabella-set-2.jpg']},
+      {n:'JULIETA',p:'₡55.900',t:'Lino',f:['assets/boho/julieta-1.jpg','assets/boho/julieta-2.jpg','assets/boho/julieta-3.jpg','assets/boho/julieta-4.jpg','assets/boho/julieta-5.jpg']},
+      {n:'LAUREN',p:'₡52.900',t:'Lino',f:['assets/boho/lauren-1.jpg','assets/boho/lauren-2.jpg','assets/boho/lauren-3.jpg','assets/boho/lauren-4.jpg']},
+      {n:'LELEN',p:'₡52.900',t:'Manta india',f:['assets/boho/lelen-1.jpg','assets/boho/lelen-2.jpg','assets/boho/lelen-3.jpg','assets/boho/lelen-4.jpg']},
+      {n:'MERCEDES set',p:'₡62.900',t:'Lino',f:['assets/boho/mercedes-set-1.jpg','assets/boho/mercedes-set-2.jpg']},
+      {n:'MIKAELA set',p:'₡65.900',t:'Manta india',f:['assets/boho/mikaela-set-1.jpg','assets/boho/mikaela-set-2.jpg','assets/boho/mikaela-set-3.jpg','assets/boho/mikaela-set-4.jpg']},
+      {n:'RENATA set',p:'₡65.900',t:'Manta india',f:['assets/boho/renata-set-1.jpg','assets/boho/renata-set-2.jpg']},
+      {n:'RITA set',p:'₡65.900',t:'Manta india',f:['assets/boho/rita-set-1.jpg','assets/boho/rita-set-2.jpg','assets/boho/rita-set-3.jpg','assets/boho/rita-set-4.jpg','assets/boho/rita-set-5.jpg','assets/boho/rita-set-6.jpg']},
+      {n:'SALOMÉ set',p:'₡65.900',t:'Manta india',f:['assets/boho/salomé-set-1.jpg','assets/boho/salomé-set-2.jpg','assets/boho/salomé-set-3.jpg','assets/boho/salomé-set-4.jpg']},
+      {n:'SIENNA',p:'₡52.900',t:'Lino',f:['assets/boho/sienna-1.jpg','assets/boho/sienna-2.jpg','assets/boho/sienna-3.jpg']},
+      {n:'SOLEI set',p:'₡65.900',t:'Manta india',f:['assets/boho/solei-set-1.jpg','assets/boho/solei-set-2.jpg','assets/boho/solei-set-3.jpg','assets/boho/solei-set-4.jpg']},
+      {n:'TONYA set',p:'₡62.900',t:'Manta india',f:['assets/boho/tonya-set-1.jpg','assets/boho/tonya-set-2.jpg','assets/boho/tonya-set-3.jpg','assets/boho/tonya-set-4.jpg']},
+      {n:'VALENTINA',p:'₡52.900',t:'Lino',f:['assets/boho/valentina-1.jpg','assets/boho/valentina-2.jpg','assets/boho/valentina-3.jpg']},
+      {n:'PANTALÓN Kiki',p:'₡42.900',t:'Lino',f:['assets/boho/pantalón-kiki-1.jpg','assets/boho/pantalón-kiki-2.jpg']},
+      {n:'PANTALÓN René',p:'₡42.900',t:'Lino',f:['assets/boho/pantalón-rené-1.jpg','assets/boho/pantalón-rené-2.jpg','assets/boho/pantalón-rené-3.jpg']}
+    ]
+  }
 };
 
-// ============================================================
-// UTILIDADES
-// ============================================================
-function driveId(url){
-  if(!url) return null;
-  const m = url.match(/\/d\/([-\w]+)/);
-  return m ? m[1] : (url.match(/id=([-\w]+)/) ? url.match(/id=([-\w]+)/)[1] : null);
-}
-function driveImg(url, size='w800'){
-  const id = driveId(url);
-  return id ? `https://drive.google.com/thumbnail?id=${id}&sz=${size}` : '';
-}
-function csvUrl(tab){
-  return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
-}
-function parseCSV(text){
-  const rows = [];
-  const lines = text.split('\n');
-  const headers = parseLine(lines[0]);
-  for(let i=1;i<lines.length;i++){
-    if(!lines[i].trim()) continue;
-    const vals = parseLine(lines[i]);
-    const obj = {};
-    headers.forEach((h,j)=>{ obj[h.trim().toLowerCase().replace(/\s+/g,'_')] = (vals[j]||'').trim(); });
-    rows.push(obj);
-  }
-  return rows;
-}
-function parseLine(line){
-  const result=[], re=/("(?:[^"]|"")*"|[^,]*)(,|$)/g;
-  let m;
-  while((m=re.exec(line))!==null){
-    let v=m[1];
-    if(v.startsWith('"')&&v.endsWith('"')) v=v.slice(1,-1).replace(/""/g,'"');
-    result.push(v);
-    if(m[2]==='') break;
-  }
-  return result;
-}
+let cat='gala', filtro='Todas', pfilt=[];
 
-// ============================================================
-// ESTADO
-// ============================================================
-let DATA = { colecciones:{}, gala:[], semiformal:[], boho:[] };
-let catActual = 'gala', filtro = 'Todas', pfilt = [];
-
-// ============================================================
-// CARGA DE DATOS DESDE GOOGLE SHEETS
-// ============================================================
-async function cargarDatos(){
-  try {
-    const [rCols, rGala, rSF, rBoho] = await Promise.all([
-      fetch(csvUrl(TABS.colecciones)).then(r=>r.text()),
-      fetch(csvUrl(TABS.gala)).then(r=>r.text()),
-      fetch(csvUrl(TABS.semiformal)).then(r=>r.text()),
-      fetch(csvUrl(TABS.boho)).then(r=>r.text())
-    ]);
-
-    // Colecciones
-    parseCSV(rCols).forEach(row=>{
-      if(row.id) DATA.colecciones[row.id] = row;
-    });
-
-    // Prendas — filtrar activas
-    DATA.gala      = parseCSV(rGala).filter(r=>r.nombre && r.activo!=='no');
-    DATA.semiformal= parseCSV(rSF).filter(r=>r.nombre && r.activo!=='no');
-    DATA.boho      = parseCSV(rBoho).filter(r=>r.nombre && r.activo!=='no');
-
-    aplicarColecciones();
-    document.getElementById('loader').classList.add('hidden');
-  } catch(e){
-    console.error('Error cargando Sheet:', e);
-    document.getElementById('loader').classList.add('hidden');
-  }
-}
-
-function aplicarColecciones(){
-  const covers = {
-    gala: DATA.colecciones['gala']?.portada,
-    semiformal: DATA.colecciones['semiformal']?.portada,
-    boho: DATA.colecciones['boho']?.portada
-  };
-  if(covers.gala){
-    const u = driveImg(covers.gala);
-    document.getElementById('heroBg').style.backgroundImage=`url('${u}')`;
-    document.getElementById('bgGala').style.backgroundImage=`url('${u}')`;
-  }
-  if(covers.semiformal) document.getElementById('bgSF').style.backgroundImage=`url('${driveImg(covers.semiformal)}')`;
-  if(covers.boho) document.getElementById('bgBoho').style.backgroundImage=`url('${driveImg(covers.boho)}')`;
-}
-
-// ============================================================
-// NAVEGACIÓN
-// ============================================================
 function irA(id){
   const el=document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
 function abrirCat(c){
-  catActual=c; filtro='Todas';
-  document.getElementById('vista-catalogo').classList.add('on');
-  document.getElementById('vista-detalle').classList.remove('on');
-  document.getElementById('divdet').style.display='none';
+  cat=c; filtro='Todas';
+  const vc=document.getElementById('vista-catalogo');
+  const vd=document.getElementById('vista-detalle');
+  const dd=document.getElementById('divdet');
+  vd.classList.remove('on'); dd.style.display='none';
+  vc.classList.add('on');
   renderCat();
   requestAnimationFrame(()=>irA('vista-catalogo'));
 }
 
 function renderCat(){
-  const col = DATA.colecciones[catActual] || {};
-  const labels = {gala:'— Línea I · Gala',semiformal:'— Línea II · Semi-Formal',boho:'— Línea III · Boho'};
-  const titles = {gala:'Colección <em>Gala</em>',semiformal:'Colección <em>Semi-Formal</em>',boho:'Colección <em>Boho</em>'};
-  document.getElementById('vck').textContent = labels[catActual]||'';
-  document.getElementById('vct').innerHTML  = titles[catActual]||'';
-  document.getElementById('vcd').textContent = col.descripcion_corta||'';
-  document.getElementById('vcdl').textContent = col.descripcion_larga||'';
-
-  const prendas = DATA[catActual]||[];
-  const telas = ['Todas',...new Set(prendas.map(p=>p.tela).filter(Boolean))];
-  document.getElementById('tfw').innerHTML = telas.map(t=>`<button class="tf${t===filtro?' on':''}" onclick="filtrar('${t}')">${t}</button>`).join('');
-
-  pfilt = filtro==='Todas' ? prendas : prendas.filter(p=>p.tela===filtro);
-  document.getElementById('pgrid').innerHTML = pfilt.map((p,i)=>{
-    const img = driveImg(p.foto1,'w600');
-    return `<div class="pc" onclick="abrirDet(${i})" style="transition-delay:${(i%8)*.04}s">
-      <div class="pf"><img src="${img}" alt="${p.nombre}" loading="lazy"/><div class="tb">${p.tela||''}</div></div>
-      <div class="pi"><div class="pn">${p.nombre}</div><div class="pp">${p.precio}</div><span class="pv">Ver diseño →</span></div>
-    </div>`;
-  }).join('');
-
+  const d=D[cat];
+  document.getElementById('vck').textContent=d.kicker;
+  document.getElementById('vct').innerHTML=d.titulo;
+  document.getElementById('vcd').textContent=d.desc;
+  document.getElementById('vcdl').textContent=d.longDesc;
+  const telas=['Todas',...new Set(d.prendas.map(p=>p.t))];
+  document.getElementById('tfw').innerHTML=telas.map(t=>`<button class="tf${t===filtro?' on':''}" onclick="filtrar('${t}')">${t}</button>`).join('');
+  pfilt=filtro==='Todas'?d.prendas:d.prendas.filter(p=>p.t===filtro);
+  document.getElementById('pgrid').innerHTML=pfilt.map((p,i)=>`
+    <div class="pc" onclick="abrirDet(${i})" style="transition-delay:${(i%8)*.04}s">
+      <div class="pf"><img src="${p.f[0]}" alt="${p.n}" loading="lazy"/><div class="tb">${p.t}</div></div>
+      <div class="pi"><div class="pn">${p.n}</div><div class="pp">${p.p}</div><span class="pv">Ver diseño →</span></div>
+    </div>`).join('');
   setTimeout(()=>{
     const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('inview');io.unobserve(e.target)}})},{threshold:.1});
     document.querySelectorAll('.pc').forEach(el=>io.observe(el));
   },100);
 }
 
-function filtrar(t){ filtro=t; renderCat(); }
+function filtrar(t){filtro=t;renderCat();}
 
 function abrirDet(i){
-  const p = pfilt[i];
-  const col = DATA.colecciones[catActual]||{};
-  const labels = {gala:'— Línea I · Gala',semiformal:'— Línea II · Semi-Formal',boho:'— Línea III · Boho'};
-  const catNombres = {gala:'Gala',semiformal:'Semi-Formal',boho:'Boho'};
-
-  document.getElementById('dkick').textContent = labels[catActual]||'';
-  document.getElementById('dnomb').textContent = p.nombre;
-  document.getElementById('dprec').textContent = p.precio;
-  document.getElementById('dtela').textContent = p.tela||'';
-  document.getElementById('dcat').textContent  = catNombres[catActual]||'';
-  document.getElementById('dtiem').innerHTML   = col.tiempos||'';
-
-  const fotos = ['foto1','foto2','foto3','foto4','foto5','foto6'].map(k=>p[k]).filter(Boolean);
-  const imgs  = fotos.map(f=>driveImg(f));
-  document.getElementById('dimg').src = imgs[0]||'';
-  document.getElementById('dthumbs').innerHTML = imgs.map((src,j)=>
-    `<div class="dth${j===0?' on':''}" onclick="cambFoto(this,'${src}')"><img src="${driveImg(fotos[j],'w200')}" loading="lazy"/></div>`
-  ).join('');
-
-  const msg = encodeURIComponent(`Hola, me interesa el diseño ${p.nombre} (${p.tela||''}) a ${p.precio}. ¿Podría darme más información?`);
+  const p=pfilt[i], d=D[cat];
+  document.getElementById('dkick').textContent=d.kicker;
+  document.getElementById('dnomb').textContent=p.n;
+  document.getElementById('dprec').textContent=p.p;
+  document.getElementById('dtela').textContent=p.t;
+  document.getElementById('dcat').textContent=cat.charAt(0).toUpperCase()+cat.slice(1);
+  document.getElementById('dtiem').innerHTML=d.tiempos;
+  document.getElementById('dimg').src=p.f[0];
+  document.getElementById('dthumbs').innerHTML=p.f.map((s,j)=>`<div class="dth${j===0?' on':''}" onclick="cambFoto(this,'${s}')"><img src="${s}" loading="lazy"/></div>`).join('');
+  const msg=encodeURIComponent(`Hola, me interesa el diseño ${p.n} (${p.t}) a ${p.p}. ¿Podría darme más información?`);
   document.getElementById('dwa').href=`https://wa.me/50671512102?text=${msg}`;
-
-  document.getElementById('vista-catalogo').classList.remove('on');
-  document.getElementById('divdet').style.display='block';
-  document.getElementById('vista-detalle').classList.add('on');
+  const vc=document.getElementById('vista-catalogo');
+  const vd=document.getElementById('vista-detalle');
+  const dd=document.getElementById('divdet');
+  vc.classList.remove('on'); dd.style.display='block'; vd.classList.add('on');
+  vd.classList.add('sa'); setTimeout(()=>vd.classList.remove('sa'),600);
   requestAnimationFrame(()=>irA('vista-detalle'));
 }
 
@@ -698,34 +788,40 @@ function cambFoto(el,src){
 }
 
 function volverCat(){
-  document.getElementById('vista-detalle').classList.remove('on');
-  document.getElementById('divdet').style.display='none';
-  document.getElementById('vista-catalogo').classList.add('on');
+  const vc=document.getElementById('vista-catalogo');
+  const vd=document.getElementById('vista-detalle');
+  const dd=document.getElementById('divdet');
+  vd.classList.remove('on'); dd.style.display='none'; vc.classList.add('on');
   requestAnimationFrame(()=>irA('vista-catalogo'));
 }
 
-// Botón inicio flotante
+document.body.style.opacity=0;
+window.addEventListener('load',()=>{document.body.style.transition='opacity .7s ease';document.body.style.opacity=1;});
+
 (function(){
   const btn=document.getElementById('homeBtn');
-  window.addEventListener('scroll',()=>{btn.classList.toggle('show',window.scrollY>500)},{passive:true});
+  if(!btn)return;
+  function check(){
+    if(window.scrollY>500){btn.classList.add('show')}else{btn.classList.remove('show')}
+  }
+  window.addEventListener('scroll',check,{passive:true});
+  check();
 })();
 
-// Lightbox telas
 function abrirTono(src,label){
+  const lbx=document.getElementById('lbx');
   document.getElementById('lbxImg').src=src;
+  document.getElementById('lbxImg').alt=label||'';
   document.getElementById('lbxLabel').textContent=label||'';
-  document.getElementById('lbx').classList.add('show');
+  lbx.classList.add('show');
   document.body.style.overflow='hidden';
 }
 function cerrarTono(e){
-  if(e&&e.target.closest('.lbx-inner')&&!e.target.closest('.lbx-close'))return;
+  if(e&&e.target.closest&&e.target.closest('.lbx-inner')&&!e.target.closest('.lbx-close'))return;
   document.getElementById('lbx').classList.remove('show');
   document.body.style.overflow='';
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarTono()});
-
-// Arrancar
-cargarDatos();
+document.addEventListener('keydown',(e)=>{if(e.key==='Escape')cerrarTono()});
 </script>
 </body>
 </html>
