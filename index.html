@@ -758,7 +758,7 @@ function renderTelas(){
       } else if(valor.startsWith('http')){
         const full = driveImg(valor);
         const thumb = driveImg(valor,'w400');
-        dots.push(`<button class="tc-dot" onclick="abrirTono('${escAttr(full)}','${escAttr(nombre)} · ${escAttr(label)}')"><span class="tc-dot-img"><img src="${thumb}" loading="lazy"/></span><span class="tc-dot-label">${label}</span></button>`);
+        dots.push(`<button class="tc-dot" onclick="abrirTono('${escAttr(full)}','${escAttr(nombre)} · ${escAttr(label)}')"><span class="tc-dot-img" style="background:transparent"><img src="${thumb}" loading="lazy"/></span><span class="tc-dot-label">${label}</span></button>`);
       }
     }
     const dotsHtml = dots.length
